@@ -1,6 +1,6 @@
 ﻿//Variant 12(4)
-using Utils;
 namespace Lab_8;
+using Utils;
 public static class Program
 {
     public static void Main()

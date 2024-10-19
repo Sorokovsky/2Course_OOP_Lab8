@@ -1,5 +1,4 @@
-﻿using Lab_8;
-namespace Utils;
+﻿namespace Lab_8.Utils;
 public class FileUtils
 {
     public string Path { get; set; }
