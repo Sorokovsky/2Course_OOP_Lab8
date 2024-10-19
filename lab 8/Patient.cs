@@ -19,7 +19,7 @@ public class Patient
         }
     }
 
-    public string Surname { get; set; } = string.Empty;
+    public string Surname { get; set; }
 
     public Patient(DateOnly date, int hour, string surname)
     {

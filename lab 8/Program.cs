@@ -1,26 +1,55 @@
 ﻿//Variant 12(4)
 namespace Lab_8;
-using Utils;
+using Commands;
 public static class Program
 {
+    private static int _operation;
+    private static PatientsBook _book = new("patients.data");
     public static void Main()
     {
-        var fileUtil = new FileUtils("patients.dat");
-        LinkedList<Patient> patients = new();
+        List<Command> commands = new() { 
+                new ExitCommand(), 
+                new ReadFromFileCommand(),
+                new ShowAllCommand(),
+                new SaveCommand(),
+                new AddPatientCommand(),
+                new ShowByDayCommand(),
+                new DeleteBySurnameCommand()
+            };
+        while (true)
+        {
+            try
+            {
+                _operation = ChooseOperation(commands);
+                ProcessCommand(commands);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                continue;
+            }
+        }
     }
 
-    private static int ChooseOperation()
+    private static int ChooseOperation(List<Command> commands)
     {
         Console.WriteLine("Choose operation");
-        Console.WriteLine("0-Exit.");
-        Console.WriteLine("1-Read from file.");
-        Console.WriteLine("2-Write to file.");
-        Console.WriteLine("4-Add patient.");
-        Console.WriteLine("5-Show by day.");
-        Console.WriteLine("6-Delete by surname.");
+        foreach (var command in commands)
+        {
+            Console.WriteLine($"{command}");
+        }
         Console.Write(">> ");
         return Convert.ToInt32(Console.ReadLine());
     }
-    
-    
+
+    private static void ProcessCommand(List<Command> commands)
+    {
+        foreach (var command in commands)
+        {
+            if (command.Number == _operation)
+            {
+                command.GetResult(_book);
+            }
+        }
+    }
 }

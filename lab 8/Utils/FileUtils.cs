@@ -15,44 +15,39 @@ public class FileUtils
         var bytes = text.Select(symbol => Convert.ToByte(symbol));
         var span = new ReadOnlySpan<byte>(bytes.ToArray());
         stream.Write(span);
+        stream.Close();
     }
 
-    public void Rewrite(IEnumerable<Patient> patients)
+    public void Rewrite(LinkedList<Patient> patients)
     {
         using var stream = new FileStream(Path, FileMode.OpenOrCreate);
         using var writer = new StreamWriter(stream);
-        writer.WriteLine($"Count: {patients.Count()}");
+        writer.WriteLine($"Count: {patients.Count}");
         foreach (var patient in patients)
         {
             Append(patient);
         }
+        writer.Close();
+        stream.Close();
     }
 
     public LinkedList<Patient> Read()
     {
         LinkedList<Patient> patients = new();
-        try
+        using var stream = new FileStream(Path, FileMode.Open);
+        using var reader = new StreamReader(stream);
+        var count = Convert.ToInt32((reader.ReadLine() ?? string.Empty).Trim(' ').Split(":")[1]);
+        for (var i = 0; i < count; i++)
         {
-            using var stream = new FileStream(Path, FileMode.Open);
-            using var reader = new StreamReader(stream);
-            int count = Convert.ToInt32(reader.ReadLine().Trim(' ').Split(":")[1]);
-            for (int i = 0; i < count; i++)
+            var lines = string.Empty;
+            for (var j = 0; j < 3; j++)
             {
-                var lines = string.Empty;
-                for (int j = 0; j < 3; j++)
-                {
-                    lines += $"{reader.ReadLine()}\n";
-                }
-
-                patients.AddLast(Patient.ParseFromString(lines));
+                lines += $"{reader.ReadLine()}\n";
             }
-
-            return patients;
+            patients.AddLast(Patient.ParseFromString(lines));
         }
-        catch (FileNotFoundException exception)
-        {
-            Console.WriteLine(exception.Message);
-            return patients;
-        }
+        reader.Close();
+        stream.Close();
+        return patients;
     }
 }
