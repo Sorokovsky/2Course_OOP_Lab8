@@ -1,5 +1,4 @@
 ﻿namespace Lab_8;
-
 public class Patient
 {
     private int _hour;

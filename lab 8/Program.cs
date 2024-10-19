@@ -1,7 +1,5 @@
 ﻿//Variant 12(4)
-
 using Utils;
-
 namespace Lab_8;
 public static class Program
 {

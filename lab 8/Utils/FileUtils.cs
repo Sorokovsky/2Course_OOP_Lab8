@@ -1,7 +1,5 @@
 ﻿using Lab_8;
-
 namespace Utils;
-
 public class FileUtils
 {
     public string Path { get; set; }
@@ -24,7 +22,7 @@ public class FileUtils
     {
         using var stream = new FileStream(Path, FileMode.OpenOrCreate);
         using var writer = new StreamWriter(stream);
-        writer.WriteLine(patients.Count());
+        writer.WriteLine($"Count: {patients.Count()}");
         foreach (var patient in patients)
         {
             Append(patient);
