@@ -44,12 +44,20 @@ public static class Program
 
     private static void ProcessCommand(List<Command> commands)
     {
+        bool founded = false;
         foreach (var command in commands)
         {
             if (command.Number == _operation)
             {
                 command.GetResult(_book);
+                founded = true;
+                break;
             }
+        }
+
+        if (founded == false)
+        {
+            throw new ArgumentException("Unknown operation. Try again.");
         }
     }
 }
