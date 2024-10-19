@@ -4,7 +4,7 @@ using Commands;
 public static class Program
 {
     private static int _operation;
-    private static PatientsBook _book = new("patients.data");
+    private static PatientsBook _book = new("patients.dat");
     public static void Main()
     {
         List<Command> commands = new() { 
